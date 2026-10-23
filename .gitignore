@@ -1,0 +1,28 @@
+# Секреты — только на сервере/локально, в git не попадают
+.env
+config.py
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Ручные бэкапы вида main-.py, main--.py, install+.py
+*-.py
+*--.py
+*+.py
+
+# База, её WAL-файлы, логи
+data/
+*.db
+*.db-wal
+*.db-shm
+*.log
+*.log.*
+
+*.xlsx
+*.tar.gz
+
+# Локальные настройки Claude Code
+.claude/

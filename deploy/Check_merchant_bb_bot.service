@@ -1,0 +1,25 @@
+# systemd-юнит для запуска без Docker. Пути рассчитаны на установку в /opt/Check_merchant_bb_bot
+# с виртуальным окружением .venv (см. README, «Вариант 2»). Поменяй, если ставишь в другое место.
+#
+#   sudo cp deploy/Check_merchant_bb_bot.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now Check_merchant_bb_bot
+[Unit]
+Description=Check_merchant_bb_bot (Bybit P2P merchant watcher)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/Check_merchant_bb_bot
+ExecStart=/opt/Check_merchant_bb_bot/.venv/bin/python main.py
+# Лучше запускать не от root: создай пользователя (sudo useradd -r -s /usr/sbin/nologin merchantbot),
+# отдай ему папку (sudo chown -R merchantbot: /opt/Check_merchant_bb_bot) и раскомментируй:
+# User=merchantbot
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

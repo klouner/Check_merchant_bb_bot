@@ -1,0 +1,15 @@
+services:
+  bot:
+    build: .
+    container_name: check_merchant_bb_bot
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /app/data
+    volumes:
+      - ./data:/app/data      # база merchants.db и bot.log живут здесь, переживают пересборку
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
